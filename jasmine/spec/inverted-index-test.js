@@ -20,6 +20,14 @@ describe("Inverted index test suite", function() {
 		});
 	});
 
-	/*describe("Search index", function() {
-	});*/
+	describe("Search index", function() {
+		it("should return the correct index of the correct object using the search query", function() {
+			spyOn(BookData, "createIndex");
+			BookData.searchIndex("string");
+			expect(BookData.createIndex).toHaveBeenCalled();
+			expect(BookData.searchIndex("wizard and hobbit")).toEqual({wizard:["book2"], and:["book1", "book2"], hobbit:["book2"]});
+			expect(BookData.searchIndex("Alice sticker")).toEqual({Alice:["book1"], sticker:"no match found"});
+			expect(BookData.searchIndex("seek again")).toEqual({seek:["book2"], again:"no match found"});
+		});
+	});
 });

@@ -17,8 +17,8 @@ var BookData = {
 			for(var i = 0; i < bookObj.length; i++) {
 				var wordsArray = [];
 				var currentBook = "book" + (i + 1);
-				titleStrings = bookObj[i].title.replace(/[^A-Za-z0-9 ]/g, "").split(" ");
-				textStrings = bookObj[i].text.replace(/[^A-Za-z0-9 ]/g, "").split(" ");
+				titleStrings = getWords(bookObj[i].title);
+				textStrings = getWords(bookObj[i].text);
 
 				wordsArray.push.apply(wordsArray, titleStrings);
 				wordsArray.push.apply(wordsArray, textStrings);
@@ -39,6 +39,22 @@ var BookData = {
 
 	verifyMapping: function(key) {
 		return this.invertedIndex[key];
+	},
+
+	searchIndex: function(string) {
+		this.createIndex();
+		var result = {};
+		var words = getWords(string);
+		for(var word in words) {
+			var key = words[word];
+			if (this.invertedIndex.hasOwnProperty(key)) {
+				result[key] = this.invertedIndex[key];
+			}
+			else {
+				result[key] = "no match found";
+			}
+		}
+		return result;
 	}
 };
 
@@ -63,5 +79,10 @@ function isEmpty(obj) {
 			return false;
 	}
 	return true;
+}
+
+function getWords(string) {
+	var array = string.replace(/[^A-Za-z0-9 ]/g, "").split(" ");
+	return array;
 }
 
