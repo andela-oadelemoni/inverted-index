@@ -24,12 +24,12 @@ var BookData = {
 				wordsArray.push.apply(wordsArray, textStrings);
 
 				for (var word in wordsArray) {
-					var text = wordsArray[word];
-					if (this.invertedIndex.hasOwnProperty(text) && this.invertedIndex[text].indexOf(currentBook) === -1) {
-						this.invertedIndex[text].push(currentBook);
+					var key = wordsArray[word].toLowerCase();
+					if (this.invertedIndex.hasOwnProperty(key) && this.invertedIndex[key].indexOf(currentBook) === -1) {
+						this.invertedIndex[key].push(currentBook);
 					}
 					else {
-						this.invertedIndex[text] = [currentBook];
+						this.invertedIndex[key] = [currentBook];
 					}
 				}
 			}
@@ -38,6 +38,7 @@ var BookData = {
 	},
 
 	verifyMapping: function(key) {
+		key = key.toLowerCase();
 		return this.invertedIndex[key];
 	},
 
@@ -46,7 +47,8 @@ var BookData = {
 		var result = {};
 		var words = getWords(string);
 		for(var word in words) {
-			var key = words[word];
+			var key = words[word].toLowerCase();
+
 			if (this.invertedIndex.hasOwnProperty(key)) {
 				result[key] = this.invertedIndex[key];
 			}

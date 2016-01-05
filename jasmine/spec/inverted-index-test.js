@@ -26,7 +26,7 @@ describe("Inverted index test suite", function() {
 			BookData.searchIndex("string");
 			expect(BookData.createIndex).toHaveBeenCalled();
 			expect(BookData.searchIndex("wizard and hobbit")).toEqual({wizard:["book2"], and:["book1", "book2"], hobbit:["book2"]});
-			expect(BookData.searchIndex("Alice sticker")).toEqual({Alice:["book1"], sticker:"no match found"});
+			expect(BookData.searchIndex("Alice sticker")).toEqual({alice:["book1"], sticker:"no match found"});
 			expect(BookData.searchIndex("seek again")).toEqual({seek:["book2"], again:"no match found"});
 		});
 	});
