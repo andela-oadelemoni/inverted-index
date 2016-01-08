@@ -1,18 +1,17 @@
-var BookData = {
+var Index = {
 
-	fileName: "books.json",
 	bookObj: null,
-	invertedIndex: {},
+	index: {},
 
-	readFile: function() {
-		loadJSON(this.fileName, function(response) {
+	readFile: function(filePath) {
+		loadJSON(filePath, function(response) {
 			bookObj = JSON.parse(response);
 		});
 		return Object.keys(bookObj) !== 0;
 	},
 
-	createIndex: function() {
-		this.readFile();
+	createIndex: function(filePath) {
+		this.readFile(filePath);
 		if(bookObj !== null) {
 			for(var i = 0; i < bookObj.length; i++) {
 				var wordsArray = [];
@@ -25,21 +24,24 @@ var BookData = {
 
 				for (var word in wordsArray) {
 					var key = wordsArray[word].toLowerCase();
-					if (this.invertedIndex.hasOwnProperty(key) && this.invertedIndex[key].indexOf(currentBook) === -1) {
-						this.invertedIndex[key].push(currentBook);
+					if (this.index.hasOwnProperty(key) && this.index[key].indexOf(currentBook) === -1) {
+						this.index[key].push(currentBook);
 					}
 					else {
-						this.invertedIndex[key] = [currentBook];
+						this.index[key] = [currentBook];
 					}
 				}
 			}
-			return !isEmpty(this.invertedIndex);
+			return !isEmpty(this.index);
 		}
 	},
 
-	verifyMapping: function(key) {
-		key = key.toLowerCase();
-		return this.invertedIndex[key];
+	getIndex: function() {
+		return this.index;
+	},
+
+	verifyIndex: function(key) {
+		return this.index[key.toLowerCase()];
 	},
 
 	searchIndex: function(string) {
@@ -49,8 +51,8 @@ var BookData = {
 		for(var word in words) {
 			var key = words[word].toLowerCase();
 
-			if (this.invertedIndex.hasOwnProperty(key)) {
-				result[key] = this.invertedIndex[key];
+			if (this.index.hasOwnProperty(key)) {
+				result[key] = this.index[key];
 			}
 			else {
 				result[key] = "no match found";
