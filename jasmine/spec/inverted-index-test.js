@@ -1,6 +1,6 @@
 describe("Inverted index test suite", function() {
 	describe("Read book data", function() {
-		it("should check if json array is empty", function() {
+		it("should verify that books array is not empty", function() {
 			expect(Index.readFile("books.json")).toBeTruthy();
 		});
 	});
